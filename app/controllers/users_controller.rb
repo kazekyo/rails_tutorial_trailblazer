@@ -15,18 +15,15 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    run User::Create::Present
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      @user.send_activation_email
+    run User::Create do |_|
       flash[:info] = "Please check your email to activate your account."
-      redirect_to root_url
-    else
-      render 'new'
+      redirect_to root_url and return
     end
+    render 'new'
   end
 
   def edit
@@ -64,12 +61,6 @@ class UsersController < ApplicationController
   end
   
   private
-
-    def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
-    end
-
     # Before filters
 
     # Confirms the correct user.
