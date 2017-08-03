@@ -9,7 +9,7 @@ module User::Contract
         format: { with: VALID_EMAIL_REGEX },
         unique: { case_sensitive: false }
     }
-    property :password, validates: { presence: true, length: { minimum: 6 }, allow_nil: true }
+    property :password, validates: { presence: true, length: { minimum: 6 }, allow_nil: true, confirmation: true }
     property :password_confirmation, validates: { presence: true, length: { minimum: 6 }, allow_nil: true }
   end
 end
